@@ -1,0 +1,12 @@
+<div class="col-3">
+    <div class="card mb-4 box-shadow">
+        <div class="card-header">
+            <h2 class="my-0 font-weight-normal">{{ object.first_name }}</h2>
+            <h2 class="my-0 font-weight-normal">{{ object.last_name }}</h2>
+        </div>
+        <div class="card-body">
+            <h6 class="card-title pricing-card-title">{{ object.email }}</h6>
+            <a href="{% url 'mailing:client' object.pk %}" class="btn btn-lg btn-block btn-outline-primary">Посмотреть</a>
+        </div>
+    </div>
+</div>
