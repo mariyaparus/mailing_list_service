@@ -1,0 +1,27 @@
+{% extends 'mailing/home.html' %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-6 d-flex h-100 p-3 mx-auto flex-column">
+    <div class="card mb-4 box-shadow">
+        <div class="card-body">
+            <h6 class="my-0 font-weight-normal"><b>Время первой отправки:</b> {{ object.time }}</h6>
+                    <h6 class="my-0 font-weight-normal"><b>Периодичность отправки:</b> {{ object.periodicity }}</h6>
+                    <h6 class="my-0 font-weight-normal"><b>Статус отправки:</b> {{ object.status }}</h6>
+                    <br>
+                    <h6 class="my-0 font-weight-normal"><b>Текст сообщения:</b> {{ object.message }}</h6>
+                    <br>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group">
+                <a href="{% url 'mailing:mailing_update' object.pk %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                <a href="" type="button"
+                   class="btn btn-sm btn-outline-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+{% endblock %}
