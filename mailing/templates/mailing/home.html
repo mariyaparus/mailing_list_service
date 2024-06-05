@@ -19,28 +19,33 @@
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                SkyStore
+                Почтальон
                 <small class="d-block mb-3 text-muted">&copy; 2024 - {% now 'Y' %}</small>
             </div>
             <div class="col-6 col-md">
                 <h5>Категории</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Овощи</a></li>
-                    <li><a class="text-muted" href="#">Фрукты</a></li>
-                    <li><a class="text-muted" href="#">Ягоды</a></li>
-                    <li><a class="text-muted" href="#">Напитки</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a class="text-muted" href="{% url 'mailing:clients' %}">Клиенты</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:messages' %}">Сообщения</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:mailings' %}">Рассылки</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:logs' %}">Логи</a></li>
+                    {% else %}
+                    <li><a class="text-muted" href="{% url 'users:register' %}">Зарегистрироваться</a></li>
+                    <li><a class="text-muted" href="{% url 'users:login' %}">Войти</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>Дополнительно</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Мы пишем</a></li>
+                    <li><a class="text-muted" href="{% url 'blog:blog' %}">Мы пишем</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>О нас</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="/contacts/">Контакты</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:contacts' %}">Контакты</a></li>
                 </ul>
             </div>
         </div>
