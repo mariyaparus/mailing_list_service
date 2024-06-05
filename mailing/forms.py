@@ -1,6 +1,6 @@
 from django import forms
 
-from mailing.models import Client, Message
+from mailing.models import Client, Message, Mailing
 
 
 class StyleFormMixin:
@@ -20,3 +20,14 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Message
         fields = '__all__'
+
+
+class MailingForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Mailing
+        fields = '__all__'
+        exclude = ('user',)
+        widgets = {
+            'message': forms.Select,
+            'client': forms.CheckboxSelectMultiple,
+        }
