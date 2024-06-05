@@ -39,7 +39,7 @@ class RegisterView(CreateView):
 class UserLoginView(LoginView):
     model = User
     form_class = UserLoginForm
-    # redirect_authenticated_user = True
+    redirect_authenticated_user = True
     success_url = reverse_lazy('mailing:home')
 
 
