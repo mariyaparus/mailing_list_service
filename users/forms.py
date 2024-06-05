@@ -20,7 +20,7 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
 class UserProfileForm(StyleFormMixin, UserChangeForm):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('email', 'first_name', 'last_name', 'phone_number')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
