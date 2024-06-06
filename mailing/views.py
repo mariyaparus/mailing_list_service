@@ -117,7 +117,7 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('mailing:message', args=[self.kwargs.get('pk')])
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:messages')
 
@@ -193,7 +193,7 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
 
 ##############################################################################
 
-class LogsListView(ListView):
+class LogsListView(LoginRequiredMixin, ListView):
     model = Logs
 
     extra_context = {
