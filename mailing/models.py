@@ -1,4 +1,7 @@
+from datetime import datetime, timezone
+
 from django.db import models
+
 
 from users.models import User
 
@@ -34,13 +37,11 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
-    PERIOD_ONCE = 'Единоразово'
     PERIOD_DAILY = 'Ежедневно'
     PERIOD_WEEKLY = 'Еженедельно'
     PERIOD_MONTHLY = 'Ежемесячно'
 
     PERIODICITY = (
-        (PERIOD_ONCE, 'Единоразово'),
         (PERIOD_DAILY, 'Ежедневно'),
         (PERIOD_WEEKLY, 'Еженедельно'),
         (PERIOD_MONTHLY, 'Ежемесячно'),
@@ -56,8 +57,10 @@ class Mailing(models.Model):
         (STATUS_COMPLETED, 'Завершена'),
     )
 
-    time = models.TimeField(verbose_name='Время')
-    periodicity = models.CharField(max_length=25, choices=PERIODICITY, default=PERIOD_ONCE,
+    date_start = models.DateField(verbose_name='Дата начала')
+    date_end = models.DateField(verbose_name='Дата окончания')
+    time = models.DateTimeField(default=datetime.now(timezone.utc), verbose_name='Время')
+    periodicity = models.CharField(max_length=25, choices=PERIODICITY, default=PERIOD_DAILY,
                                    verbose_name='Периодичность')
     status = models.CharField(max_length=25, choices=STATUSES, default=STATUS_CREATED, verbose_name='Статус')
 
