@@ -32,28 +32,28 @@ def my_job():
                                                                         minutes=mailing_setting.time.minute)
                 if now >= next_send_time:
                     send_email_to_clients(mailing_setting)
-                    logger.info(f"Email sent to clients for MailingSettings {mailing_setting.id}")
+                    logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
 
             elif mailing_setting.period == Mailing.PERIOD_WEEKLY and time_difference.days >= 7:
                 next_send_time = last_attempt_date + timezone.timedelta(weeks=1, hours=mailing_setting.time.hour,
                                                                         minutes=mailing_setting.time.minute)
                 if now >= next_send_time:
                     send_email_to_clients(mailing_setting)
-                    logger.info(f"Email sent to clients for MailingSettings {mailing_setting.id}")
+                    logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
 
             elif mailing_setting.period == Mailing.PERIOD_MONTHLY and time_difference.days >= 30:
                 next_send_time = last_attempt_date + timezone.timedelta(days=30, hours=mailing_setting.time.hour,
                                                                         minutes=mailing_setting.time.minute)
                 if now >= next_send_time:
                     send_email_to_clients(mailing_setting)
-                    logger.info(f"Email sent to clients for MailingSettings {mailing_setting.id}")
+                    logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
 
         else:
             send_time = timezone.datetime(now.year, now.month, now.day, mailing_setting.time.hour,
                                           mailing_setting.time.minute, tzinfo=timezone.get_current_timezone())
             if now >= send_time:
                 send_email_to_clients(mailing_setting)
-                logger.info(f"Email sent to clients for MailingSettings {mailing_setting.id}")
+                logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
