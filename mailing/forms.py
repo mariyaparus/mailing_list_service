@@ -31,3 +31,9 @@ class MailingForm(StyleFormMixin, forms.ModelForm):
             'message': forms.Select,
             'client': forms.CheckboxSelectMultiple,
         }
+
+
+class MailingModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Mailing
+        fields = ['status', ]
