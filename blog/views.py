@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -6,10 +6,11 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from blog.models import Blog
 
 
-class BlogCreateView(LoginRequiredMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Blog
     fields = ('title', 'text', 'blog_img',)
     success_url = reverse_lazy('blog:blog')
+    permission_required = 'blog.add_blog'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -25,9 +26,10 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class BlogUpdateView(LoginRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Blog
     fields = ('title', 'text', 'blog_img', 'is_published',)
+    permission_required = 'blog.change_blog'
 
     def form_valid(self, form):
         """
@@ -92,9 +94,10 @@ class BlogDetailView(DetailView):
         return context_data
 
 
-class BlogDeleteView(LoginRequiredMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog')
+    permission_required = 'blog.delete_blog'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
