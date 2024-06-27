@@ -1,0 +1,25 @@
+{% extends 'mailing/home.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
+    <p class="lead">Список пользователей</p>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        {% for object in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2 class="my-0 font-weight-normal">{{ object.username }}</h2>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title pricing-card-title">{{ object.email }}</h6>
+                    <h6 class="card-title pricing-card-title">{{ object.phone_number }}</h6>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
