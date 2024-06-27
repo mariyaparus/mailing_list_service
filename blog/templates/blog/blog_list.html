@@ -5,9 +5,11 @@
     <p class="lead">Все наши статьи</p>
 </div>
 <div class="container">
+    {% if perms.blog.add_blog %}
     <div class="col-12 mb-5">
         <a class="btn btn-outline-primary" href="{% url 'blog:blog_create' %}">Добавить статью</a>
     </div>
+    {% endif %}
 </div>
 
 <div class="container">
@@ -28,11 +30,14 @@
                        class="btn btn-lg btn-block btn-outline-primary">Читать</a>
                 </div>
                 <div class="btn-group">
-
+                    {% if perms.blog.change_blog %}
                     <a href="{% url 'blog:blog_update' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                    {% endif %}
+                    {% if perms.blog.delete_blog %}
                     <a href="{% url 'blog:blog_delete' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
                 </div>
                 <div class="card-footer">
                     Просмотры: {{ object.views_count }}
