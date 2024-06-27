@@ -1,0 +1,54 @@
+[
+  {
+    "model": "blog.blog",
+    "pk": 1,
+    "fields": {
+      "title": "Тест",
+      "slug": "test",
+      "text": "ТЕстТЕСТТЕСТТЕСТ",
+      "blog_img": "",
+      "created_at": "2024-06-25",
+      "is_published": true,
+      "views_count": 2
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 2,
+    "fields": {
+      "title": "Ntcn 2",
+      "slug": "ntcn-2",
+      "text": "Ntcn",
+      "blog_img": "",
+      "created_at": "2024-06-25",
+      "is_published": true,
+      "views_count": 1
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 3,
+    "fields": {
+      "title": "Ntcn 3",
+      "slug": "ntcn-3",
+      "text": "Ntcn 3",
+      "blog_img": "",
+      "created_at": "2024-06-25",
+      "is_published": true,
+      "views_count": 0
+    }
+  },
+  {
+    "model": "blog.blog",
+    "pk": 4,
+    "fields": {
+      "title": "Ntcn 4",
+      "slug": "ntcn-4",
+      "text": "Ntcn 4",
+      "blog_img": "",
+      "created_at": "2024-06-25",
+      "is_published": true,
+      "views_count": 1
+    }
+  }
+]
