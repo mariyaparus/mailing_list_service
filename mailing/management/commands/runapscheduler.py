@@ -21,39 +21,42 @@ def my_job():
     now = timezone.now()
 
     for mailing_setting in Mailing.objects.filter(status=Mailing.STATUS_STARTED):
-        last_attempt = Logs.objects.filter(settings=mailing_setting).order_by('-attempt_date').first()
+        if (now.date() >= mailing_setting.date_start) and (now.date() <= mailing_setting.date_end):
+            last_attempt = Logs.objects.filter(mailing=mailing_setting).order_by('-attempt_date').first()
 
-        if last_attempt:
-            last_attempt_date = last_attempt.attempt_date
-            time_difference = now - last_attempt_date
+            if last_attempt:
+                last_attempt_date = last_attempt.attempt_date
+                time_difference = now - last_attempt_date
 
-            if mailing_setting.period == Mailing.PERIOD_DAILY and time_difference.days >= 1:
-                next_send_time = last_attempt_date + timezone.timedelta(days=1, hours=mailing_setting.time.hour,
-                                                                        minutes=mailing_setting.time.minute)
-                if now >= next_send_time:
+                if mailing_setting.periodicity == Mailing.PERIOD_DAILY and time_difference.days >= 1:
+                    next_send_time = last_attempt_date + timezone.timedelta(days=1, hours=mailing_setting.time.hour,
+                                                                            minutes=mailing_setting.time.minute)
+                    if now >= next_send_time:
+                        send_email_to_clients(mailing_setting)
+                        logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
+
+                elif mailing_setting.periodicity == Mailing.PERIOD_WEEKLY and time_difference.days >= 7:
+                    next_send_time = last_attempt_date + timezone.timedelta(weeks=1, hours=mailing_setting.time.hour,
+                                                                            minutes=mailing_setting.time.minute)
+                    if now >= next_send_time:
+                        send_email_to_clients(mailing_setting)
+                        logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
+
+                elif mailing_setting.periodicity == Mailing.PERIOD_MONTHLY and time_difference.days >= 30:
+                    next_send_time = last_attempt_date + timezone.timedelta(days=30, hours=mailing_setting.time.hour,
+                                                                            minutes=mailing_setting.time.minute)
+                    if now >= next_send_time:
+                        send_email_to_clients(mailing_setting)
+                        logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
+
+            else:
+                send_time = timezone.datetime(now.year, now.month, now.day, mailing_setting.time.hour,
+                                              mailing_setting.time.minute, tzinfo=timezone.get_current_timezone())
+                print(send_time)
+                print(now)
+                if now >= send_time:
                     send_email_to_clients(mailing_setting)
                     logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
-
-            elif mailing_setting.period == Mailing.PERIOD_WEEKLY and time_difference.days >= 7:
-                next_send_time = last_attempt_date + timezone.timedelta(weeks=1, hours=mailing_setting.time.hour,
-                                                                        minutes=mailing_setting.time.minute)
-                if now >= next_send_time:
-                    send_email_to_clients(mailing_setting)
-                    logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
-
-            elif mailing_setting.period == Mailing.PERIOD_MONTHLY and time_difference.days >= 30:
-                next_send_time = last_attempt_date + timezone.timedelta(days=30, hours=mailing_setting.time.hour,
-                                                                        minutes=mailing_setting.time.minute)
-                if now >= next_send_time:
-                    send_email_to_clients(mailing_setting)
-                    logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
-
-        else:
-            send_time = timezone.datetime(now.year, now.month, now.day, mailing_setting.time.hour,
-                                          mailing_setting.time.minute, tzinfo=timezone.get_current_timezone())
-            if now >= send_time:
-                send_email_to_clients(mailing_setting)
-                logger.info(f"Email sent to clients for Mailing {mailing_setting.id}")
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
@@ -81,7 +84,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             my_job,
-            trigger=CronTrigger(second="*/60"),  # Every 60 seconds
+            trigger=CronTrigger(second="*/50"),  # Every 50 seconds
             id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,
