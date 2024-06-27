@@ -40,6 +40,6 @@ def send_email_to_clients(mailing_settings):
 
     Logs.objects.create(
         status=status,
-        settings=mailing_settings,
+        mailing=mailing_settings,
         server_response=server_response
     )
