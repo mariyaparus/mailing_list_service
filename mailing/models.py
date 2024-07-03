@@ -100,6 +100,8 @@ class Logs(models.Model):
     status = models.CharField(choices=STATUSES, default=STATUS_OK, verbose_name='Статус попытки')
     server_response = models.TextField(**NULLABLE, verbose_name='Ответ сервера')
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+
     class Meta:
         verbose_name = 'Лог'
         verbose_name_plural = 'Логи'
