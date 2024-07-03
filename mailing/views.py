@@ -234,14 +234,14 @@ class LogsListView(LoginRequiredMixin, ListView):
         'title': 'Попытки рассылки',
     }
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset().filter(
-    #         user=self.request.user
-    #     )
-    #     if not self.request.user.is_staff:
-    #         queryset = queryset.filter(user=self.request.user)
-    #
-    #     return queryset
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(
+            user=self.request.user
+        )
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(user=self.request.user)
+
+        return queryset
 
 
 ###############################################################################
