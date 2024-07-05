@@ -1,7 +1,7 @@
 import secrets
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+# from django.contrib.auth import get_user_model
+# from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
@@ -101,9 +101,9 @@ class UserPasswordResetView(PasswordResetView):
 #         return queryset
 
 
-class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = get_user_model()
-    # template_name = 'users/user_form.html'
-    # success_url = reverse_lazy('users:user_list')
-    permission_required = 'users.set_active'
-    fields = ['is_active', ]
+# class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+#     model = get_user_model()
+#     # template_name = 'users/user_form.html'
+#     # success_url = reverse_lazy('users:user_list')
+#     permission_required = 'users.set_active'
+#     fields = ['is_active', ]
