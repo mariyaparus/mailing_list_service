@@ -12,9 +12,6 @@ from mailing.models import Client, Message, Mailing, Logs
 
 class HomeView(TemplateView):
     template_name = 'mailing/base.html'
-    # extra_context = {
-    #     'title': 'Добро пожаловать в наш сервис рассылок "Почтальон"!',
-    # }
     model = Blog
 
     def get_context_data(self, **kwargs):
@@ -35,10 +32,8 @@ class ClientListView(LoginRequiredMixin, ListView):
     }
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(
-            user=self.request.user
-        )
-        if not self.request.user.is_staff:
+        queryset = super().get_queryset()
+        if not self.request.user.is_staff and not self.request.user.has_perm('Client.can_view'):
             queryset = queryset.filter(user=self.request.user)
 
         return queryset
@@ -75,9 +70,17 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('mailing:client', args=[self.kwargs.get('pk')])
 
 
-class ClientDeleteView(LoginRequiredMixin,DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:clients')
+
+    # def test_func(self):
+    #     return self.request.user == Client.objects.get(pk=self.kwargs['pk']).user
+
+    # def has_permission(self):
+    #     if self.request.user.is_superuser or self.request.user == self.get_object().user:
+    #         return True
+    #     return super().has_permission()
 
 
 ###########################################################################
@@ -90,10 +93,8 @@ class MessageListView(LoginRequiredMixin, ListView):
     }
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(
-            user=self.request.user
-        )
-        if not self.request.user.is_staff:
+        queryset = super().get_queryset()
+        if not self.request.user.is_staff and not self.request.user.has_perm('Message.can_view'):
             queryset = queryset.filter(user=self.request.user)
 
         return queryset
@@ -108,7 +109,7 @@ class MessageDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class MessageCreateView(LoginRequiredMixin,CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mailing:messages')
@@ -141,27 +142,13 @@ class MessageDeleteView(LoginRequiredMixin, DeleteView):
 class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
 
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     context_data['mailing_count'] = Mailing.objects.all().count()
-    #     context_data['active_mailing_count'] = Mailing.objects.filter(
-    #         status=Mailing.STATUS_STARTED).count()
-    #     context_data['count_unique_mailing_client'] = Client.objects.all().count()
-    #     context_data.update({'title': 'Рассылки'})
-    #     return context_data
     extra_context = {
         'title': 'Рассылки',
     }
-    # permission_required = 'mailing.view_malling'
-    #
-    # def handle_no_permission(self):
-    #     return redirect('mailing:mailing_list')
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(
-            user=self.request.user
-        )
-        if not self.request.user.is_staff:
+        queryset = super().get_queryset()
+        if not self.request.user.is_staff and not self.request.user.has_perm('Mailing.can_view'):
             queryset = queryset.filter(user=self.request.user)
 
         return queryset
@@ -197,10 +184,6 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 class MailingUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
     form_class = MailingForm
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
