@@ -10,7 +10,9 @@
                         <form method="post">
                             {% csrf_token %}
                             <p>Хотите удалить клиента "{{ object.first_name}} {{ object.last_name}}"?</p>
+                            {% if request.user == object.user %}
                             <button type="submit" class="btn btn-danger">Подтвердить</button>
+                            {% enif %}
                             <a href="{% url 'mailing:client' object.pk %}" class="btn btn-warning">Отмена</a>
                         </form>
                     </div>

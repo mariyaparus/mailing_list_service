@@ -10,7 +10,9 @@
                         <form method="post">
                             {% csrf_token %}
                             <p>Хотите удалить рассылку "{{ object.message|slice:50 }}"?</p>
+                            {% if request.user == object.user %}
                             <button type="submit" class="btn btn-danger">Подтвердить</button>
+                            {% endif %}
                             <a href="{% url 'mailing:message' object.pk %}" class="btn btn-warning">Отмена</a>
                         </form>
                     </div>

@@ -17,12 +17,14 @@
             </ul>
         </div>
         <div class="card-footer">
+            {% if request.user == object.user %}
             <div class="btn-group">
                 <a href="{% url 'mailing:client_update' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-secondary">Редактировать</a>
                 <a href="{% url 'mailing:client_delete' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-danger">Удалить</a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

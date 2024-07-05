@@ -16,8 +16,10 @@
             <div class="btn-group">
                 <a href="{% url 'mailing:mailing_update' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                <a href="" type="button"
+                {% if request.user == object.user %}
+                <a href="{% url 'mailing:mailing_delete' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-danger">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>

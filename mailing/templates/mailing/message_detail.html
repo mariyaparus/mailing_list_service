@@ -10,12 +10,14 @@
             <h6 class="card-title pricing-card-title">{{ object.message }}</h6>
         </div>
         <div class="card-footer">
+            {% if request.user == object.user %}
             <div class="btn-group">
                 <a href="{% url 'mailing:message_update' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-secondary">Редактировать</a>
                 <a href="{% url 'mailing:message_delete' object.pk %}" type="button"
                    class="btn btn-sm btn-outline-danger">Удалить</a>
             </div>
+            {% enif %}
         </div>
     </div>
 </div>
